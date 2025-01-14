@@ -256,9 +256,6 @@ def print_ats_settings(info_plist):
     print_blue('Application Transport Security (ATS) Settings:', header=True)
     if info_plist.get('NSAppTransportSecurity', {}).get('NSAllowsArbitraryLoads', False):
         print_green('- ATS Enabled: True')
-    else:
-        print_red('- ATS Enabled: False')
-    if info_plist.get('NSAppTransportSecurity', {}).get('NSAllowsArbitraryLoads', False):
         print_blue('- ATS Exception Domains:')
         for domain, settings in info_plist.get('NSAppTransportSecurity', {}).get('NSExceptionDomains', {}).items():
             print_yellow(f'  - {domain}')
@@ -269,6 +266,8 @@ def print_ats_settings(info_plist):
                     print_blue(f'    - {setting}: {settings.get(setting)}')
                 else:
                     print_red(f'    - {setting}: {settings.get(setting)}')
+    else:
+        print_red('- ATS Enabled: False')
     print()
 
 
