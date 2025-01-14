@@ -216,13 +216,22 @@ def print_yellow(text, header=False):
 
 def extract_info_plist(ipa_file):
     with ZipFile(ipa_file) as ipa:
-        info_plist = 'Payload/Info.plist'
+        info_plist_path = None
+        for file_name in ipa.namelist():
+            if file_name.endswith('Info.plist'):
+                info_plist_path = file_name
+                break
+
+        if not info_plist_path:
+            return None
+
         try:
-            with ipa.open(info_plist) as plist_file:
+            with ipa.open(info_plist_path) as plist_file:
                 plist_data = plist_file.read()
                 plist_dict = loads(plist_data)
                 return plist_dict
-        except KeyError:
+        except Exception as e:
+            print(f"Error reading Info.plist: {e}")
             return None
 
 
