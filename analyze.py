@@ -217,7 +217,7 @@ def print_yellow(text, header=False):
 def extract_info_plist(ipa_file):
     with ZipFile(ipa_file) as ipa:
         info_plist_path = None
-        for file_name in ipa.namelist():
+        for file_name in sorted(ipa.namelist(), key=len):
             if file_name.endswith('Info.plist'):
                 info_plist_path = file_name
                 break
